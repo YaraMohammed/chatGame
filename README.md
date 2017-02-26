@@ -16,4 +16,7 @@
 
 ## Running ##
 
-`pip3 install tornado pymongo python-jose`
+```
+pip3 install --user tornado pymongo python-jose
+python3 src/main.py
+```
