@@ -22,3 +22,18 @@ class SignUpHandler(web.RequestHandler):
             "groups": [],
             "friends": []
         })
+
+
+class SignInHandler(web.RequestHandler):
+    def post(self):
+        username = self.get_body_argument("username")
+        password = self.get_body_argument("password")
+        
+        client = MongoClient()
+        user = client.chatGame.users.find({
+            "_id": username,
+            "password": password
+        })
+
+        if user.count() == 1:
+            self.write(str(username))
