@@ -1,4 +1,7 @@
 from tornado import websocket
+from jose import jwt
+
+chat_rooms = {}
 
 
 class WSHandler(websocket.WebSocketHandler):

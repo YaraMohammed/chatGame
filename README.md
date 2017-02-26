@@ -13,3 +13,10 @@
 2. mongo
 3. user/user relation
 4. user/group relation
+
+## Running ##
+
+```
+pip3 install --user tornado pymongo python-jose
+python3 src/main.py
+```
