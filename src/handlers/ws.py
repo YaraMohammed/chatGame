@@ -1,5 +1,6 @@
 from tornado import websocket
 import json
+from pymongo import MongoClient
 from jose import jwt
 
 chat_rooms = {}
@@ -35,6 +36,14 @@ class WSHandler(websocket.WebSocketHandler):
                 chat_rooms[self.room].discard(self)
 
             self.room = msg['room']
+
+            client = MongoClient()
+            room = client.chatGame.chatRooms.find_one({
+            "_id": self.room
+            })
+
+            history = {'type':'chatHistory','room':self.room, 'msgs':room['msg']}
+            self.write_message(json.dumps(history))
 
     def on_close(self):
         if self.room != '':

@@ -1,7 +1,7 @@
 var ws = new WebSocket("ws://localhost:8888/ws");
 
 ws.onopen = function (event) {
-	ws.send("I'm client"); 
+	//ws.send("I'm client"); 
 };
 
 ws.onmessage = function (event) {
