@@ -1,4 +1,3 @@
-name = 'yara'
 var str = ""
 
 $(function(){
@@ -14,9 +13,20 @@ $(function(){
 		console.log(type)
 		if(type == "message"){
 			str = temp.name+" : "+temp.data
-			console.log(str)
 			$("p").append("</br>"+str+"</br>")
-			}	
+			}
+		else if(type == "chatHistory"){
+			msgs = temp.msgs
+			keys = Object.keys(msgs);
+			keys.forEach(function(message) {
+				var name = Object.keys(msgs[message]) 
+				name.forEach(function(key){
+					var value = msgs[message][key]
+					str = name[0]+" : "+value
+					$("p").append("</br>"+str+"</br>")
+				})
+			})
+		}
 	}
 
 	$('#send').click(function(e){
