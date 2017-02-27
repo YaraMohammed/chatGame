@@ -45,6 +45,15 @@ class WSHandler(websocket.WebSocketHandler):
             history = {'type':'chatHistory','room':self.room, 'msgs':room['msg']}
             self.write_message(json.dumps(history))
 
+        elif msg['type'] == 'sendMsg':
+            obj = {'type':'message','data':msg['data'],'name':self.username}
+            #TODO check self.room is set (not null)
+            dbObj = {'type':'message','data':msg['data'],'name':self.username,'room':self.room}
+            client = MongoClient()
+            msgAdd = client.chatGame.chatRooms.update({"_id": self.room},{"$push":{'msg':{self.username:msg['data']}}})
+            for conn in chat_rooms[self.room]:
+                conn.write_message(json.dumps(obj))
+
     def on_close(self):
         if self.room != '':
             chat_rooms[self.room].discard(self)
