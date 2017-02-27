@@ -28,7 +28,7 @@ class SignInHandler(web.RequestHandler):
     def post(self):
         username = self.get_body_argument("username")
         password = self.get_body_argument("password")
-        
+
         client = MongoClient()
         user = client.chatGame.users.find({
             "_id": username,
@@ -36,4 +36,9 @@ class SignInHandler(web.RequestHandler):
         })
 
         if user.count() == 1:
-            self.write(str(username))
+            self.write(str(username ))
+
+        friendsList = client.chatGame.users.find({"_id": username});
+        for item in friendsList:
+            for i in item["friends"]:
+                self.write('<br>'+i)
