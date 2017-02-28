@@ -20,18 +20,20 @@ class WSHandler(websocket.WebSocketHandler):
 
             if type(msg) is not dict:
                 raise ValueError()
-
         except ValueError:
             print("Error JSON ValueError")
             self.close()
             return
 
         try:
-
             if msg['type'] == 'authenticate':
-                token = jwt.decode(msg['token'], 'secret', algorithms=['HS256'])
-                self.username = token['username']
+                token = jwt.decode(
+                    msg['token'],
+                    'secret',
+                    algorithms=['HS256']
+                )
 
+                self.username = token['username']
             elif msg['type'] == 'setRoom':
                 # TODO: run mongo query async
                 client = MongoClient()
@@ -56,18 +58,42 @@ class WSHandler(websocket.WebSocketHandler):
 
                 self.room = msg['room']
 
-                history = {'type':'chatHistory','room':self.room, 'msgs':room_obj['msg']}
-                self.write_message(json.dumps(history))
+                history = {
+                    'type': 'chatHistory',
+                    'room': self.room,
+                    'msgs': room_obj['msg']
+                }
 
+                self.write_message(json.dumps(history))
             elif msg['type'] == 'sendMsg':
-                obj = {'type':'message','data':msg['data'],'name':self.username}
-                #TODO check self.room is set (not null)
-                dbObj = {'type':'message','data':msg['data'],'name':self.username,'room':self.room}
+                obj = {
+                    'type': 'message',
+                    'data': msg['data'],
+                    'name': self.username
+                }
+
+                # TODO check self.room is set (not null)
+                # FIXME: db_obj assigned but not used
+                db_obj = {
+                    'type': 'message',
+                    'data': msg['data'],
+                    'name': self.username,
+                    'room': self.room
+                }
+
                 client = MongoClient()
-                msgAdd = client.chatGame.chatRooms.update({"_id": self.room},{"$push":{'msg':{self.username:msg['data']}}})
+
+                # FIXME: msg_add assigned but not used
+                msg_add = client.chatGame.chatRooms.update({
+                    "_id": self.room
+                }, {
+                    "$push": {
+                        'msg': {self.username: msg['data']}
+                    }
+                })
+
                 for conn in chat_rooms[self.room]:
                     conn.write_message(json.dumps(obj))
-
         except KeyError:
             print("Error KeyError")
             self.close()
