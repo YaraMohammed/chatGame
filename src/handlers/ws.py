@@ -2,7 +2,7 @@ from tornado import websocket
 import json
 from pymongo import MongoClient
 from jose import jwt
-from jose.exceptions import JWTError, JWSError
+from jose.exceptions import JOSEError
 
 chat_rooms = {}
 
@@ -71,11 +71,8 @@ class WSHandler(websocket.WebSocketHandler):
         except KeyError:
             print("Error KeyError")
             self.close()
-        except JWTError:
+        except JOSEError:
             print("Error JWTError")
-            self.close()
-        except JWSError:
-            print("Error JWSError")
             self.close()
 
     def on_close(self):
