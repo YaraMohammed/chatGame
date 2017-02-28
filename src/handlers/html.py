@@ -30,15 +30,15 @@ class SignInHandler(web.RequestHandler):
         password = self.get_body_argument("password")
 
         client = MongoClient()
-        user = client.chatGame.users.find({
+        user = client.chatGame.users.find_one({
             "_id": username,
             "password": password
         })
 
-        if user.count() == 1:
-            self.write(str(username ))
+        if user is not None:
+            self.write(username)
+        else:
+            return
 
-        friendsList = client.chatGame.users.find({"_id": username});
-        for item in friendsList:
-            for i in item["friends"]:
-                self.write('<br>'+i)
+        for friend in user['friends']:
+                self.write('<br>'+friend)
