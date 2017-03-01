@@ -27,16 +27,25 @@ class WSHandler(websocket.WebSocketHandler):
 
         try:
             if msg['type'] == 'authenticate':
-                token = jwt.decode(
-                    msg['token'],
-                    'secret',
-                    algorithms=['HS256']
-                )
+                try:
+                    token = jwt.decode(
+                        msg['token'],
+                        'secret',
+                        algorithms=['HS256']
+                    )
+                except JOSEError:
+                    self.username = ''
+                else:
+                    self.username = token['username']
 
-                self.username = token['username']
+                self.write_message({
+                    'type': 'authResponse',
+                    'user': self.username
+                })
             elif msg['type'] == 'setRoom':
-                # TODO: run mongo query async
                 client = MongoClient()
+
+                # TODO: run mongo query async
                 room_obj = client.chatGame.chatRooms.find_one({
                     "_id": msg['room']
                 })
@@ -64,7 +73,7 @@ class WSHandler(websocket.WebSocketHandler):
                     'msgs': room_obj['msg']
                 }
 
-                self.write_message(json.dumps(history))
+                self.write_message(history)
             elif msg['type'] == 'sendMsg':
                 obj = {
                     'type': 'message',
@@ -93,12 +102,9 @@ class WSHandler(websocket.WebSocketHandler):
                 })
 
                 for conn in chat_rooms[self.room]:
-                    conn.write_message(json.dumps(obj))
+                    conn.write_message(obj)
         except KeyError:
             print("Error KeyError")
-            self.close()
-        except JOSEError:
-            print("Error JWTError")
             self.close()
 
     def on_close(self):
