@@ -20,12 +20,14 @@ class WSHandler(websocket.WebSocketHandler):
 
             if type(msg) is not dict:
                 raise ValueError()
+
         except ValueError:
-            print("Error JSON ValueError")
+            self.write_error('badRequest')
             self.close()
             return
 
         try:
+            # authentication
             if msg['type'] == 'authenticate':
                 try:
                     token = jwt.decode(
@@ -36,23 +38,94 @@ class WSHandler(websocket.WebSocketHandler):
                 except JOSEError:
                     self.username = ''
                 else:
-                    self.username = token['username']
+                    client = MongoClient()
+
+                    user_cnt = client.chatGame.users.count({
+                        '_id': token['username']
+                    })
+
+                    if user_cnt != 1:
+                        self.username = ''
+                    else:
+                        self.username = token['username']
 
                 self.write_message({
                     'type': 'authResponse',
                     'user': self.username
                 })
-            elif msg['type'] == 'setRoom':
-                client = MongoClient()
 
-                # TODO: run mongo query async
-                room_obj = client.chatGame.chatRooms.find_one({
-                    "_id": msg['room']
+            # heartbeat message
+            elif msg['type'] == 'hb':
+                self.write_message({
+                    'type': 'hb'
                 })
 
-                if room_obj is None:
-                    print("Error Room not Found")
-                    self.close()
+            # do not accept other types for non-authorized users
+            elif self.username == '':
+                self.write_error('notAuthorized')
+
+            # set current chat room
+            elif msg['type'] == 'setRoom':
+                # check room type
+                s = msg['room'].split('-')
+
+                client = MongoClient()
+
+                if len(s) == 2 and self.username in s and s[0] < s[1]:
+                    # direct chat
+                    # check if other user exists
+                    u2 = s[1] if self.username == s[0] else s[0]
+
+                    user_cnt = client.chatGame.users.count({
+                        '_id': u2
+                    })
+
+                    if user_cnt != 1:
+                        self.write_error('roomNotFound')
+                        return
+
+                    # load room object
+                    room_obj = client.chatGame.chatRooms.find_one({
+                        '_id': msg['room']
+                    })
+
+                    if room_obj is None:
+                        room_obj = {
+                            '_id': msg['room'],
+                            'msg': []
+                        }
+
+                        client.chatGame.chatRooms.insert_one(room_obj)
+
+                elif len(msg['room'].split('/')) == 2:
+                    # group chat
+                    # check if group is joined
+                    user_obj = client.chatGame.users.find_one({
+                        '_id': self.username
+                    })
+
+                    if user_obj is None:
+                        self.write_error('notAuthorized')
+                        self.username = ''
+                        return
+
+                    if msg['room'] not in user_obj['groups']:
+                        self.write_error('roomNotJoined')
+                        return
+
+                    # check if group exists
+                    # TODO: run mongo query async
+                    room_cnt = client.chatGame.chatRooms.count({
+                        "_id": msg['room']
+                    })
+
+                    if room_cnt != 1:
+                        self.write_error('roomNotFound')
+                        return
+
+                else:
+                    # wrong room name
+                    self.write_error('roomNotFound')
                     return
 
                 if msg['room'] not in chat_rooms:
@@ -60,10 +133,10 @@ class WSHandler(websocket.WebSocketHandler):
                 else:
                     chat_rooms[msg['room']].add(self)
 
-                print(chat_rooms)
-
                 if self.room != '':
                     chat_rooms[self.room].discard(self)
+
+                print(chat_rooms)
 
                 self.room = msg['room']
 
@@ -74,15 +147,13 @@ class WSHandler(websocket.WebSocketHandler):
                 }
 
                 self.write_message(history)
-            elif msg['type'] == 'sendMsg':
-                obj = {
-                    'type': 'message',
-                    'data': msg['data'],
-                    'name': self.username
-                }
 
-                # TODO check self.room is set (not null)
-                # FIXME: db_obj assigned but not used
+            # send message to the current room
+            elif msg['type'] == 'sendMsg':
+                if self.room == '':
+                    self.write_error('roomNotSet')
+                    return
+
                 db_obj = {
                     'type': 'message',
                     'data': msg['data'],
@@ -92,8 +163,7 @@ class WSHandler(websocket.WebSocketHandler):
 
                 client = MongoClient()
 
-                # FIXME: msg_add assigned but not used
-                msg_add = client.chatGame.chatRooms.update({
+                client.chatGame.chatRooms.update({
                     "_id": self.room
                 }, {
                     "$push": {
@@ -102,9 +172,14 @@ class WSHandler(websocket.WebSocketHandler):
                 })
 
                 for conn in chat_rooms[self.room]:
-                    conn.write_message(obj)
+                    conn.write_message(db_obj)
+
+            # inform user about wrong request type
+            else:
+                self.write_error('badRequestType')
+
         except KeyError:
-            print("Error KeyError")
+            self.write_error('keyError')
             self.close()
 
     def on_close(self):
@@ -114,3 +189,9 @@ class WSHandler(websocket.WebSocketHandler):
         print(chat_rooms)
 
         print('WebSocket Closed!')
+
+    def write_error(self, msg):
+        self.write_message({
+            'type': 'error',
+            'msg': msg
+        })

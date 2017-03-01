@@ -14,6 +14,9 @@ class SignUpHandler(web.RequestHandler):
         password = self.get_body_argument("password")
         self.write(str(username))
 
+        # TODO: check /[a-z][a-z0-9]{5}/
+        # TODO: check pass strength and hash it
+
         client = MongoClient()
         client.chatGame.users.insert_one({
             "_id": username,
@@ -36,6 +39,7 @@ class SignInHandler(web.RequestHandler):
         })
 
         if user is not None:
+            # TODO: set token cookie
             self.write(username)
         else:
             return
