@@ -29,17 +29,17 @@
     <h1 class="title">Login</h1>
     <form method="post" action="/signin">
       <div class="input-container">
-        <input type="#{type}" name="username" id="#{label}" required="required"/>
-        <label for="#{label}">Username</label>
+        <input type="text" name="username" required="required"/>
+        <label for="username">Username</label>
         <div class="bar"></div>
       </div>
       <div class="input-container">
-        <input type="password" id="#{label}" name="password" required="required"/>
-        <label for="#{label}">Password</label>
+        <input type="password" name="password" required="required"/>
+        <label for="password">Password</label>
         <div class="bar"></div>
       </div>
       <div class="button-container">
-        <button><span>Go</span></button>
+        <button><span>Login</span></button>
       </div>
       <div class="footer"><a href="#">Forgot your password?</a></div>
     </form>
@@ -51,18 +51,18 @@
     </h1>
     <form method="post" action="/signup">
       <div class="input-container">
-        <input type="#{type}" id="#{label}" required="required"/>
-        <label for="#{label}">Username</label>
+        <input type="text" name="username" required="required"/>
+        <label for="username">Username</label>
         <div class="bar"></div>
       </div>
       <div class="input-container">
-        <input type="#{type}" id="#{label}" required="required"/>
-        <label for="#{label}">Password</label>
+        <input type="password" name="password" required="required"/>
+        <label for="password">Password</label>
         <div class="bar"></div>
       </div>
       <div class="input-container">
-        <input type="#{type}" id="#{label}" required="required"/>
-        <label for="#{label}">Repeat Password</label>
+        <input type="password" name="confirmPassword" required="required"/>
+        <label for="confirmPassword">Confirm Password</label>
         <div class="bar"></div>
       </div>
       <div class="button-container">
