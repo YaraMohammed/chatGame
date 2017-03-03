@@ -67,6 +67,7 @@ class WSHandler(websocket.WebSocketHandler):
             # set current chat room
             elif msg['type'] == 'setRoom':
                 # check room type
+                print(msg)
                 s = msg['room'].split('-')
 
                 client = MongoClient()
@@ -139,6 +140,10 @@ class WSHandler(websocket.WebSocketHandler):
                 print(chat_rooms)
 
                 self.room = msg['room']
+
+                room_obj = client.chatGame.chatRooms.find_one({
+                        "_id": msg['room']
+                    })
 
                 history = {
                     'type': 'chatHistory',

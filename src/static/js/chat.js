@@ -10,7 +10,6 @@ $(function(){
 	webSocket.onmessage = function(e){
 		temp = JSON.parse(e.data)
 		type = temp.type
-		console.log(type)
 		if(type == "message"){
 			str = temp.name+" : "+temp.data
 			$("p").append("</br>"+str+"</br>")
