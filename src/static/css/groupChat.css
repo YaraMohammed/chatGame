@@ -76,13 +76,13 @@ body {
   text-transform: uppercase;
 }
 
-.friendIcon {
+.groupIcon {
   position: relative;
   float: left;
 
 }
 
-.removeFriend {
+.leaveGroup {
   position: relative;
   float: right;
   color: #ed2553;
@@ -105,9 +105,16 @@ body {
 
 .chatText {
   position: relative;
-  width: 100%;
+  width: 85%;
   font-size: 16px;
 }
+
+.groupMembers {
+  position: relative;
+  width: 13%;
+  font-size: 16px;
+}
+
 .chatMessage {
   position: relative;
   width: 90%;
