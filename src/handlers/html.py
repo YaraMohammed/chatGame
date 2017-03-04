@@ -1,5 +1,7 @@
 from tornado import web
 from pymongo import MongoClient
+from jose import jwt
+from jose.exceptions import JOSEError
 
 
 class MainHandler(web.RequestHandler):
@@ -40,16 +42,22 @@ class SignInHandler(web.RequestHandler):
         })
 
         if user is not None:
-            # TODO: set token cookie
+            token = jwt.encode(
+                {'username': username},
+                'secret',
+                algorithm='HS256'
+            )
+
+            self.set_cookie('token', token)
+
             client = MongoClient()
             client.chatGame.users.update({
                 "_id": username
             }, {
-                "$set":{"state":"on"}
+                "$set": {"state": "on"}
             })
 
-            
-            self.render("../static/homePage.html")
+            self.redirect("/static/homePage.html")
         else:
             return
 
