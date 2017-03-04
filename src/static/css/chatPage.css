@@ -92,6 +92,36 @@ body {
 }
 
 
+.chatBox {
+  position: relative;
+  max-width: 95%;
+  width: 100%;
+  height: auto;
+  text-align: left;
+  margin-top: 5%;
+  background: #f2f2f2;
+
+}
+
+.chatText {
+  position: relative;
+  width: 100%;
+  font-size: 16px;
+}
+.chatMessage {
+  position: relative;
+  width: 90%;
+  font-size: 14px;
+}
+
+.sendButton {
+  position: relative;
+  float: right;
+  width: 9%;
+  height: 55px;
+  font-size: 14px;
+}
+
 .myGroupsContent {
   position: relative;
   float: center;
