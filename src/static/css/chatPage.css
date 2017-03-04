@@ -56,7 +56,7 @@ body {
 }
 
 /*My Groups Container*/
-.myGroupsContainer {
+.chatContainer {
   position: relative;
   max-width: 95%;
   width: 100%;
@@ -66,53 +66,23 @@ body {
   background: #f2f2f2;
 }
 
-.myGroupsTitle {
+.chatTitle {
   position: relative;
   float: left;
-  z-index: 1;
-  border: 3px solid #ed2553;
-  /*margin: 23px 50px 5px 10px;*/
   padding: 2px 5px 5px 5px;
   color: #ed2553;
   font-size: 24px;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+.friendIcon {
+  position: relative;
+  float: left;
+  
 }
 
 .myGroupsContent {
-  position: relative;
-  float: center;
-  z-index: 1;
-  border: 1px solid #ed2553;
-  margin: 65px 15px 15px 15px;
-  padding: 10px 10px 10px 10px;
-}
-
-/*All Groups Container*/
-.allGroupsContainer {
-  position: relative;
-  max-width: 95%;
-  width: 100%;
-  height: auto;
-  text-align: center;
-  margin-top: 2%;
-  background: #f2f2f2;
-}
-
-.allGroupsTitle {
-  position: relative;
-  float: left;
-  z-index: 1;
-  border: 3px solid #ed2553;
-  /*margin: 23px 50px 5px 10px;*/
-  padding: 2px 5px 5px 5px;
-  color: #ed2553;
-  font-size: 24px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.allGroupsContent {
   position: relative;
   float: center;
   z-index: 1;
