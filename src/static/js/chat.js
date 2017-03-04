@@ -1,12 +1,12 @@
 var str = ""
 
 $(function(){
-	
-	p = "<p></p>"		
+
+	p = "<p></p>"
 	$("#chat-body").append(p)
 
 	webSocket= new WebSocket("ws://localhost:8888/ws");
-	
+
 	webSocket.onmessage = function(e){
 		temp = JSON.parse(e.data)
 		type = temp.type
@@ -18,7 +18,7 @@ $(function(){
 			msgs = temp.msgs
 			keys = Object.keys(msgs);
 			keys.forEach(function(message) {
-				var name = Object.keys(msgs[message]) 
+				var name = Object.keys(msgs[message])
 				name.forEach(function(key){
 					var value = msgs[message][key]
 					str = name[0]+" : "+value
@@ -27,6 +27,12 @@ $(function(){
 			})
 		}
 	}
+	$('#create_group').click(function (e) {
+		var room = $("#gRoom").val();
+		gObj ={'type':'createGroup' , 'gRoom':room}
+		webSocket.send(JSON.stringify(gObj))
+		$("#gRoom").val('')
+	})
 
 	$('#send').click(function(e){
 		var msg = $("#message").val()

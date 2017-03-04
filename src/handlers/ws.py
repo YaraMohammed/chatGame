@@ -3,6 +3,7 @@ import json
 from pymongo import MongoClient
 from jose import jwt
 from jose.exceptions import JOSEError
+from handlers.groups import GroupHandler
 
 chat_rooms = {}
 
@@ -180,12 +181,21 @@ class WSHandler(websocket.WebSocketHandler):
                     conn.write_message(db_obj)
 
             # inform user about wrong request type
+            elif msg['type'] == 'createGroup':
+
+                GroupHandler.createGroup(self.username,msg["gRoom"])
+
+
             else:
                 self.write_error('badRequestType')
+
+
 
         except KeyError:
             self.write_error('keyError')
             self.close()
+
+
 
     def on_close(self):
         if self.room != '':
