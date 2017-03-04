@@ -5,7 +5,7 @@ ws.onopen = function (event) {
 };
 
 ws.onmessage = function (event) {
-	console.log(event.data);
+	// console.log(event.data);
 };
 
 ws.onclose = function (event){
