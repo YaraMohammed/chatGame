@@ -42,22 +42,25 @@ class SignInHandler(web.RequestHandler):
         })
 
         if user is not None:
-            token = jwt.encode(
-                {'username': username},
-                'secret',
-                algorithm='HS256'
-            )
+            try:
+                token = jwt.encode(
+                    {'username': username},
+                    'secret',
+                    algorithm='HS256'
+                )
+            except JOSEError:
+                pass
+            else:
+                self.set_cookie('token', token)
 
-            self.set_cookie('token', token)
-
-            client = MongoClient()
-            client.chatGame.users.update({
-                "_id": username
-            }, {
-                "$set": {"state": "on"}
-            })
-
-            self.redirect("/static/homePage.html")
+                client = MongoClient()
+                client.chatGame.users.update({
+                    "_id": username
+                }, {
+                    "$set": {"state": "on"}
+                })
+            finally:
+                self.redirect("/static/homePage.html")
         else:
             return
 
