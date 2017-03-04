@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from jose import jwt
 from jose.exceptions import JOSEError
 from handlers.groups import GroupHandler
+from handlers.friends import FriendHandler
 
 chat_rooms = {}
 
@@ -189,6 +190,12 @@ class WSHandler(websocket.WebSocketHandler):
 
             elif msg['type'] == 'leaveGroup':
                 GroupHandler.leaveGroup(self.username,msg["lGRoom"])
+
+            elif msg['type'] == 'addFriend':
+                FriendHandler.addFriend(self.username,msg["aFriend"])
+
+            elif msg['type'] == 'removeFriend':
+                FriendHandler.removeFriend(self.username,msg["rFriend"])
 
             # inform user about wrong request type
             else:
