@@ -25,6 +25,7 @@ class SignUpHandler(web.RequestHandler):
             "groups": [],
             "friends": []
         })
+        self.render("../static/homePage.html")
 
 
 class SignInHandler(web.RequestHandler):
@@ -40,7 +41,20 @@ class SignInHandler(web.RequestHandler):
 
         if user is not None:
             # TODO: set token cookie
-            self.write(username)
+            client = MongoClient()
+            client.chatGame.users.update({
+                "_id": username
+            }, {
+                "$set":{"state":"on"}
+            })
+
+            client.chatGame.users.update({
+                "_id": self.username
+            }, {
+                "$set":{"state": "off"}
+            })
+            
+            self.render("../static/homePage.html")
         else:
             return
 

@@ -198,8 +198,17 @@ class WSHandler(websocket.WebSocketHandler):
 
 
     def on_close(self):
+        client = MongoClient()
+        print("aaa"+self.username)
+        client.chatGame.users.update({
+                "_id": self.username
+            }, {
+                "$set":{"state": "off"}
+            })
         if self.room != '':
             chat_rooms[self.room].discard(self)
+
+
 
         print(chat_rooms)
 
