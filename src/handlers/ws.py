@@ -59,6 +59,9 @@ class WSHandler(websocket.WebSocketHandler):
             elif msg['type'] == 'listGroups':
                 GroupHandler.listGroups(self)
 
+            elif msg['type'] == 'listUsers':
+                FriendHandler.listUsers(self)
+
             # heartbeat message
             elif msg['type'] == 'hb':
                 self.write_message({

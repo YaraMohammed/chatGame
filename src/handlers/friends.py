@@ -1,6 +1,9 @@
 from pymongo import MongoClient
+from bson import *
+from tornado import websocket
+users = []
 
-class FriendHandler():
+class FriendHandler(websocket.WebSocketHandler):
     def addFriend(username,amsg):
             client = MongoClient()
 
@@ -54,3 +57,12 @@ class FriendHandler():
             else:
                 # print(group+"\n")
                 pass
+
+    def listUsers(self):
+        client = MongoClient()
+        usrs = client.chatGame.users.find({"state":"on"},{"_id":"true"})
+        for user in usrs:
+            users.append(user['_id']) 
+        obj = {'type':'usersList' , 'list':users} 
+        self.write_message(obj)   
+        users.clear()
