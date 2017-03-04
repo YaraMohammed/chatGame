@@ -60,7 +60,8 @@ class FriendHandler(websocket.WebSocketHandler):
 
     def listUsers(self):
         client = MongoClient()
-        usrs = client.chatGame.users.find({"state":"on"},{"_id":"true"})
+        # usrs = client.chatGame.users.find({"state":"on"},{"_id":"true"})
+        usrs = client.chatGame.users.find({},{"_id":"true"})
         for user in usrs:
             users.append(user['_id']) 
         obj = {'type':'usersList' , 'list':users} 

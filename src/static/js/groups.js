@@ -12,7 +12,7 @@ $(function(){
 		if(temp['type'] == 'groupList'){
 			//TODO add click event to image --> chatHistory Handler
 			temp['list'].forEach(function(grp){
-				img = '<div><img class="allGroupsContent" src="userIcon.png" width="50px" height="50px" /></br>'+grp+'</div>'
+				img = '<img class="allGroupsContent" src="userIcon.png" width="50px" height="50px" />'
 				$('#allGroupsContainer').append(img)
 			})
 		}
