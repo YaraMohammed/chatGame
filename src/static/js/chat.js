@@ -34,6 +34,20 @@ $(function(){
 		$("#gRoom").val('')
 	})
 
+	$('#join_group').click(function (e) {
+		var jroom = $("#jGRoom").val();
+		jObj ={'type':'joinGroup' , 'jGRoom':jroom}
+		webSocket.send(JSON.stringify(jObj))
+		$("#jGRoom").val('')
+	})
+
+	$('#leave_group').click(function (e) {
+		var lroom = $("#lGRoom").val();
+		lObj ={'type':'leaveGroup' , 'lGRoom':lroom}
+		webSocket.send(JSON.stringify(lObj))
+		$("#lGRoom").val('')
+	})
+
 	$('#send').click(function(e){
 		var msg = $("#message").val()
 		obj = {'type':'sendMsg','data':msg}

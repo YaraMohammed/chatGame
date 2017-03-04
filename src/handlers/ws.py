@@ -180,12 +180,17 @@ class WSHandler(websocket.WebSocketHandler):
                 for conn in chat_rooms[self.room]:
                     conn.write_message(db_obj)
 
-            # inform user about wrong request type
-            elif msg['type'] == 'createGroup':
 
+            elif msg['type'] == 'createGroup':
                 GroupHandler.createGroup(self.username,msg["gRoom"])
 
+            elif msg['type'] == 'joinGroup':
+                GroupHandler.joinGroup(self.username,msg["jGRoom"])
 
+            elif msg['type'] == 'leaveGroup':
+                GroupHandler.leaveGroup(self.username,msg["lGRoom"])
+
+            # inform user about wrong request type
             else:
                 self.write_error('badRequestType')
 
