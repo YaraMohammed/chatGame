@@ -11,9 +11,9 @@ $(function(){
 		if(temp['type'] == 'usersList'){
 			//TODO add click event to image --> chatHistory Handler
 			temp['list'].forEach(function(usr){
-				// img = '<div><img class="allGroupsContent" src="userIcon.png" width="50px" height="50px" /></br>'+grp+'</div>'
-				// $('#allGroupsContainer').append(img)
-				console.log(usr)
+				img = '<div><img class="allPeopleContent" src="userIcon.png" width="50px" height="50px" /></br>'+usr+'</div>'
+				$('#allPeopleTitle').append(img)
+				//console.log(usr)
 			})
 		}
 	}

@@ -48,11 +48,6 @@ class SignInHandler(web.RequestHandler):
                 "$set":{"state":"on"}
             })
 
-            client.chatGame.users.update({
-                "_id": username
-            }, {
-                "$set":{"state": "off"}
-            })
             
             self.render("../static/homePage.html")
         else:
