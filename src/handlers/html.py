@@ -49,7 +49,7 @@ class SignInHandler(web.RequestHandler):
             })
 
             client.chatGame.users.update({
-                "_id": self.username
+                "_id": username
             }, {
                 "$set":{"state": "off"}
             })

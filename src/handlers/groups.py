@@ -1,6 +1,10 @@
 from pymongo import MongoClient
+from bson import *
+from tornado import websocket
 
-class GroupHandler():
+chat_Rooms = []
+
+class GroupHandler(websocket.WebSocketHandler):
     def createGroup(username,msg):
             client = MongoClient()
             client.chatGame.chatRooms.insert_one({
@@ -70,3 +74,16 @@ class GroupHandler():
             else:
                 # print(group+"\n")
                 pass
+
+    def listGroups(self):
+        client = MongoClient()
+
+        grps = client.chatGame.chatRooms.find({},{"_id":"true"})
+        for grp in grps:
+            s = grp['_id'].split('/')
+            if len(s) == 2:
+                chat_Rooms.append(s[1])
+        print(chat_Rooms) 
+        obj = {'type':'groupList' , 'list':chat_Rooms} 
+        self.write_message(obj)   
+        chat_Rooms.clear()

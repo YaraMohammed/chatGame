@@ -56,6 +56,9 @@ class WSHandler(websocket.WebSocketHandler):
                     'user': self.username
                 })
 
+            elif msg['type'] == 'listGroups':
+                GroupHandler.listGroups(self)
+
             # heartbeat message
             elif msg['type'] == 'hb':
                 self.write_message({
@@ -197,9 +200,12 @@ class WSHandler(websocket.WebSocketHandler):
             elif msg['type'] == 'removeFriend':
                 FriendHandler.removeFriend(self.username,msg["rFriend"])
 
+
+
             # inform user about wrong request type
             else:
                 self.write_error('badRequestType')
+
 
 
 
@@ -211,7 +217,6 @@ class WSHandler(websocket.WebSocketHandler):
 
     def on_close(self):
         client = MongoClient()
-        print("aaa"+self.username)
         client.chatGame.users.update({
                 "_id": self.username
             }, {
