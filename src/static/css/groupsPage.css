@@ -120,3 +120,11 @@ body {
   margin: 65px 15px 15px 15px;
   padding: 10px 10px 10px 10px;
 }
+
+.createGroupButton {
+  position: relative;
+  float: right;
+  width: 9%;
+  height: 35px;
+  font-size: 14px;
+}
