@@ -3,6 +3,7 @@ from bson import *
 from tornado import websocket
 
 chat_Rooms = []
+own_Groups = []
 
 class GroupHandler(websocket.WebSocketHandler):
     def createGroup(username,msg):
@@ -87,3 +88,21 @@ class GroupHandler(websocket.WebSocketHandler):
         obj = {'type':'groupList' , 'list':chat_Rooms} 
         self.write_message(obj)   
         chat_Rooms.clear()
+
+    
+    def listGroup(self,username):
+        client = MongoClient()
+
+        user = client.chatGame.users.find_one({
+            "_id": username
+        })
+        print(username)
+        if user is not None:
+            for group in user['groups']:
+                own_Groups.append(group)
+            print(own_Groups)
+            gObj = {"type":"listOwnGroup","gList":own_Groups}
+            self.write_message(gObj)
+            own_Groups.clear()
+        else: 
+            pass
