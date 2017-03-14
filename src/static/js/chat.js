@@ -26,6 +26,10 @@ $(function(){
 				})
 			})
 		}
+
+		else if(temp['type'] == 'authResponse'){
+			$('#username').text(temp['user']);
+		}
 	}
 	$('#create_group').click(function (e) {
 		var room = $("#gRoom").val();

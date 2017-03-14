@@ -3,11 +3,26 @@ $(function(){
 	ws = new WebSocket("ws://localhost:8888/ws");
 
 	ws.onopen = function(){
-		ws.send('{"type":"authenticate","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1lZGhhdCJ9.YTIPJC5HqvBNT3OaDVX84r8TXv5AsrJBvRkaxDGltgk"}')
-	groups ={'type':'listGroups'}
-	ws.send(JSON.stringify(groups))
-	group ={'type':'listGroup'}
-	ws.send(JSON.stringify(group))
+		var cookies = document.cookie.split(';');
+		var token = "";
+		console.log(cookies);
+		for (var cookie of cookies) {
+			var cparts = cookie.split('=');
+			if (cparts[0] == 'token') {
+				token = cparts[1];
+				break;
+			}
+		}
+		// console.log(token);
+		// ws.send('{"type":"authenticate","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1lZGhhdCJ9.YTIPJC5HqvBNT3OaDVX84r8TXv5AsrJBvRkaxDGltgk"}')
+		ws.send(JSON.stringify({
+			type: 'authenticate',
+			token: token
+		}));
+		groups ={'type':'listGroups'}
+		ws.send(JSON.stringify(groups))
+		group ={'type':'listGroup'}
+		ws.send(JSON.stringify(group))
 	}
 
 	ws.onmessage = function(e){
@@ -29,6 +44,11 @@ $(function(){
 				// console.log(img)
 			})
 		}
+
+		else if(temp['type'] == 'authResponse'){
+			$('#username').text(temp['user']);
+		}
+
 		else
 			console.log(temp)
 	}

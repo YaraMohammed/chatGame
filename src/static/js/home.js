@@ -1,11 +1,17 @@
 var ws = new WebSocket("ws://localhost:8888/ws");
 
-ws.onopen = function (event) {
-	//ws.send("I'm client"); 
+ws.onopen = function(){
+	ws.send(JSON.stringify({
+		type: 'authenticate',
+		token: getToken()
+	}));
 };
 
-ws.onmessage = function (event) {
-	// console.log(event.data);
+ws.onmessage = function (e) {
+	temp = JSON.parse(e.data);
+	if(temp['type'] == 'authResponse'){
+		$('#username').text(temp['user']);
+	}
 };
 
 ws.onclose = function (event){
