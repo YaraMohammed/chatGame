@@ -14,7 +14,6 @@ class SignUpHandler(web.RequestHandler):
         username = self.get_body_argument("username")
         firstName = self.get_body_argument("firstName")
         password = self.get_body_argument("password")
-        self.write(str(username))
 
         # TODO: check /[a-z][a-z0-9]{5}/
         # TODO: check pass strength and hash it
@@ -27,7 +26,7 @@ class SignUpHandler(web.RequestHandler):
             "groups": [],
             "friends": []
         })
-        self.render("../static/homePage.html")
+        self.redirect("/static/homePage.html")
 
 
 class SignInHandler(web.RequestHandler):

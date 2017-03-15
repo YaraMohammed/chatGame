@@ -1,3 +1,7 @@
+document.addEventListener('wsMsg-authResponse', function(e) {
+	$('#username').text(e.detail.user);
+})
+
 $('.toggle').on('click', function() {
   $('.container').stop().addClass('active');
 });
@@ -5,10 +9,3 @@ $('.toggle').on('click', function() {
 $('.close').on('click', function() {
   $('.container').stop().removeClass('active');
 });
-
-
-		ws.send(JSON.stringify({
-			type: 'authenticate',
-			token: token
-		}));
-	}
