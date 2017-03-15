@@ -3,8 +3,8 @@ import json
 from pymongo import MongoClient
 from jose import jwt
 from jose.exceptions import JOSEError
-from handlers.groups import GroupHandler
-from handlers.friends import FriendHandler
+from controllers.groups import GroupHandler
+from controllers.friends import FriendHandler
 
 chat_rooms = {}
 
@@ -56,6 +56,16 @@ class WSHandler(websocket.WebSocketHandler):
                     'user': self.username
                 })
 
+            # heartbeat message
+            elif msg['type'] == 'hb':
+                self.write_message({
+                    'type': 'hb'
+                })
+
+            # do not accept other types for non-authorized users
+            elif self.username == '':
+                self.write_error('notAuthorized')
+
             elif msg['type'] == 'listGroups':
                 GroupHandler.listGroups(self)
 
@@ -67,16 +77,6 @@ class WSHandler(websocket.WebSocketHandler):
 
             elif msg['type'] == 'listFriends':
                 FriendHandler.listFriends(self,self.username)
-
-            # heartbeat message
-            elif msg['type'] == 'hb':
-                self.write_message({
-                    'type': 'hb'
-                })
-
-            # do not accept other types for non-authorized users
-            elif self.username == '':
-                self.write_error('notAuthorized')
 
             # set current chat room
             elif msg['type'] == 'setRoom':

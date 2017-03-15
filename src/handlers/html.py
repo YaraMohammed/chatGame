@@ -24,7 +24,8 @@ class SignUpHandler(web.RequestHandler):
             "name": firstName,
             "password": password,
             "groups": [],
-            "friends": []
+            "friends": [],
+            "friendReqs": []
         })
         self.redirect("/static/homePage.html")
 
@@ -58,10 +59,5 @@ class SignInHandler(web.RequestHandler):
                 }, {
                     "$set": {"state": "on"}
                 })
-            finally:
-                self.redirect("/static/homePage.html")
-        else:
-            return
 
-        for friend in user['friends']:
-                self.write('<br>'+friend)
+        self.redirect("/static/homePage.html")
