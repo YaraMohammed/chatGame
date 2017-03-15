@@ -30,12 +30,10 @@ class GroupHandler(websocket.WebSocketHandler):
             })
 
             if user is not None:
-                # TODO: set token cookie
                 print(username)
             else:
                 return
 
-            # for group in user['groups']:
             if jmsg not in user['groups']:
                 client.chatGame.users.update({
                     "_id": username
@@ -45,7 +43,6 @@ class GroupHandler(websocket.WebSocketHandler):
                     }
                 })
             else:
-                # print(group+"\n")
                 pass
 
     def leaveGroup(username,lmsg):
@@ -56,13 +53,11 @@ class GroupHandler(websocket.WebSocketHandler):
             })
 
             if user is not None:
-                # TODO: set token cookie
                 print(username)
             else:
                 return
 
             print(lmsg)
-            # for group in user['groups']:
             if lmsg in user['groups']:
 
                 client.chatGame.users.update({
@@ -73,7 +68,6 @@ class GroupHandler(websocket.WebSocketHandler):
                     }
                 })
             else:
-                # print(group+"\n")
                 pass
 
     def listGroups(self):

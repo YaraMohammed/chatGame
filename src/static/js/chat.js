@@ -31,7 +31,8 @@ $(function(){
 			$('#username').text(temp['user']);
 		}
 	}
-	$('#create_group').click(function (e) {
+	
+/*	$('#create_group').click(function (e) {
 		var room = $("#gRoom").val();
 		gObj ={'type':'createGroup' , 'gRoom':room}
 		webSocket.send(JSON.stringify(gObj))
@@ -51,8 +52,8 @@ $(function(){
 		webSocket.send(JSON.stringify(lObj))
 		$("#lGRoom").val('')
 	})
-
-	$('#add_friend').click(function (e) {
+*/
+/*	$('#add_friend').click(function (e) {
 		var afriend = $("#addFriend").val();
 		aObj ={'type':'addFriend' , 'aFriend':afriend}
 		webSocket.send(JSON.stringify(aObj))
@@ -72,6 +73,6 @@ $(function(){
 		obj = {'type':'sendMsg','data':msg}
 		webSocket.send(JSON.stringify(obj))
 		$("#message").val('')
-	})
+	})*/
 
 })

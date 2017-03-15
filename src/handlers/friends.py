@@ -13,12 +13,10 @@ class FriendHandler(websocket.WebSocketHandler):
             })
 
             if user is not None:
-                # TODO: set token cookie
                 print(username)
             else:
                 return
 
-            # for group in user['groups']:
             if amsg not in user['friends']:
                 client.chatGame.users.update({
                     "_id": username
@@ -28,7 +26,6 @@ class FriendHandler(websocket.WebSocketHandler):
                     }
                 })
             else:
-                # print(group+"\n")
                 pass
 
     def removeFriend(username,rmsg):
@@ -39,13 +36,11 @@ class FriendHandler(websocket.WebSocketHandler):
             })
 
             if user is not None:
-                # TODO: set token cookie
                 print(username)
             else:
                 return
 
 
-            # for group in user['groups']:
             if rmsg in user['friends']:
 
                 client.chatGame.users.update({
@@ -56,7 +51,6 @@ class FriendHandler(websocket.WebSocketHandler):
                     }
                 })
             else:
-                # print(group+"\n")
                 pass
 
     def listUsers(self):

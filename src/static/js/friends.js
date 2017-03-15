@@ -38,3 +38,25 @@ $(function(){
 		}
 	}
 })
+
+	$('#add_friend').click(function (e) {
+		var afriend = $("#addFriend").val();
+		aObj ={'type':'addFriend' , 'aFriend':afriend}
+		webSocket.send(JSON.stringify(aObj))
+		$("#jGRoom").val('')
+	})
+
+	$('#remove_friend').click(function (e) {
+		var rfriend = $("#removeFriend").val();
+		rObj ={'type':'removeFriend' , 'rFriend':rfriend}
+		webSocket.send(JSON.stringify(rObj))
+		$("#jGRoom").val('')
+	})
+
+
+	$('#send').click(function(e){
+		var msg = $("#message").val()
+		obj = {'type':'sendMsg','data':msg}
+		webSocket.send(JSON.stringify(obj))
+		$("#message").val('')
+	})

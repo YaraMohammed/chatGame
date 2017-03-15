@@ -10,9 +10,6 @@ function getToken() {
 			break;
 		}
 	}
-	// ws.send(JSON.stringify({
-	// 	type: 'authenticate',
-	// 	token: getToken()
-	// }));
+	
 	return token;
 }
