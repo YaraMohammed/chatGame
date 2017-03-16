@@ -69,16 +69,18 @@ document.addEventListener('wsMsg-groupList', function(e) {
 document.addEventListener('wsMsg-listOwnGroup', function(e) {
 	//TODO add click event to image --> chatHistory Handler
 	e.detail.gList.forEach(function(grop){
-		var tdCount = 14;
-		trHtmlBegin = '<tr>';
-		trHtmlEnd = '</tr>';
-		cellHtml ='<td class="myGroupsNames"><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"><BR>Group Name<BR><a href="#">Leave Group</a></td>';
-		$('#myGroupsTable').append(trHtmlBegin)
-		for (var i = 0; i < tdCount; i++)
-		{
-			cellHtml ='<td class="myGroupsNames"><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"><BR>Group Name<BR><a href="#">Leave Group</a></td>';
-		}
-		trHtmlEnd = '</tr>';
+		// var tdCount = 14;
+		// trHtmlBegin = '<tr>';
+		// trHtmlEnd = '</tr>';
+		// cellHtml ='<td class="myGroupsNames"><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"><BR>Group Name<BR><a href="#">Leave Group</a></td>';
+		// $('#myGroupsTable').append(trHtmlBegin)
+		// for (var i = 0; i < tdCount; i++)
+		// {
+		// 	cellHtml ='<td class="myGroupsNames"><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"><BR>Group Name<BR><a href="#">Leave Group</a></td>';
+		// }
+		// trHtmlEnd = '</tr>';
+		var item = '<span><table style="display: inline"><tr><td><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>Group Name</td></tr><tr><td><a href="#">Leave Group</a></td></tr></table></span>';
+		$('#myGroupsTable').append(item);
 		// console.log(img)
 	})
 });
