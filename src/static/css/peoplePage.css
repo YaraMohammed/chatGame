@@ -55,6 +55,39 @@ body {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+/*Req Groups Container*/
+.reqPeopleContainer {
+  position: relative;
+  max-width: 95%;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  margin-top: 2%;
+  background: #f2f2f2;
+}
+
+.reqPeopleTitle {
+  position: relative;
+  float: left;
+  z-index: 1;
+  border: 3px solid #ed2553;
+  /*margin: 23px 50px 5px 10px;*/
+  padding: 2px 5px 5px 5px;
+  color: #ed2553;
+  font-size: 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.reqPeopleContent {
+  position: relative;
+  float: center;
+  z-index: 1;
+  border: 1px solid #ed2553;
+  margin: 15px 15px 0px 15px;
+  padding: 5px 5px 5px 5px;
+}
+
 /*My Groups Container*/
 .myPeopleContainer {
   position: relative;

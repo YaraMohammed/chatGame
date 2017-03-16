@@ -1,21 +1,31 @@
 document.addEventListener('ws-onOpen', function(e) {
 	ws.send('{"type":"listUsers"}');
 	ws.send('{"type":"listFriends"}');
+	ws.send('{"type":"listFriendReqs"}');
 })
 
 document.addEventListener('wsMsg-usersList', function(e) {
-	//TODO add click event to image --> chatHistory Handler
+	$('#allPeopleTable').html('');
 	e.detail.list.forEach(function(usr) {
-		var item = '<span><table style="display: inline"><tr><td><img class="allPeopleContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+usr+'</td></tr><tr><td><a href="#">Add User</a></td></tr></table></span>';
+		var item = '<span><table style="display: inline"><tr><td><img class="allPeopleContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+usr+'</td></tr><tr><td><a id="'+usr+'" class="addFriend" href="#">Send Request</a></td></tr></table></span>';
 		$('#allPeopleTable').append(item);
 	});
 });
 
 document.addEventListener('wsMsg-listOwnFriend', function(e) {
-	//TODO add click event to image --> chatHistory Handler
+	$('#myPeopleTable').html('');
 	e.detail.fList.forEach(function(frd){
-		var item = '<span><table style="display: inline"><tr><td><img class="myPeopleContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+frd+'</td></tr><tr><td><a href="#">Start Chat</a></td></tr></table></span>';
+		var room = (user<frd)?(user+'-'+frd):(frd+'-'+user);
+		var item = '<span><table style="display: inline"><tr><td><a href="/static/chatPage.html?group='+room+'"><img class="myPeopleContent" src="userIcon.png" width="50px" height="50px"></a></td></tr><tr><td>'+frd+'</td></tr><tr><td><a id="'+frd+'" class="removeFriend" href="#">Remove</a></td></tr></table></span>';
 		$('#myPeopleTable').append(item);
+	})
+});
+
+document.addEventListener('wsMsg-listFriendReqs', function(e) {
+	$('#reqPeopleTable').html('');
+	e.detail.fList.forEach(function(frd){
+		var item = '<span><table style="display: inline"><tr><td><img class="reqPeopleContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+frd+'</td></tr><tr><td><a id="'+frd+'" class="acceptFriend" href="#">Accept</a> <a id="'+frd+'" class="denyFriend" href="#">Deny</a></td></tr></table></span>';
+		$('#reqPeopleTable').append(item);
 	})
 });
 
@@ -33,6 +43,34 @@ $('#remove_friend').click(function (e) {
 	$("#jGRoom").val('')
 })
 
+$('body').on('click', 'a.removeFriend', function(e) {
+	e.preventDefault();
+	console.log(this.id);
+	ws.send(JSON.stringify({type: 'removeFriend', rFriend: this.id}));
+	ws.send(JSON.stringify({type: 'listFriends'}));
+})
+
+$('body').on('click', 'a.addFriend', function(e) {
+	e.preventDefault();
+	console.log(this.id);
+	ws.send(JSON.stringify({type: 'addFriend', aFriend: this.id}));
+})
+
+$('body').on('click', 'a.denyFriend', function(e) {
+	e.preventDefault();
+	console.log(this.id);
+	ws.send(JSON.stringify({type: 'denyFriend', dFriend: this.id}));
+	ws.send('{"type":"listFriendReqs"}');
+	ws.send('{"type":"listFriends"}');
+})
+
+$('body').on('click', 'a.acceptFriend', function(e) {
+	e.preventDefault();
+	console.log(this.id);
+	ws.send(JSON.stringify({type: 'acceptFriend', acFriend: this.id}));
+	ws.send('{"type":"listFriendReqs"}');
+	ws.send('{"type":"listFriends"}');
+})
 
 $('#send').click(function(e){
 	var msg = $("#message").val()

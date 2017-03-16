@@ -4,23 +4,37 @@ document.addEventListener('ws-onOpen', function(e) {
 })
 
 document.addEventListener('wsMsg-groupList', function(e) {
-	//TODO add click event to image --> chatHistory Handler
+	$('#allGroupsTable').html('');
 	e.detail.list.forEach(function(grp){
-		var item = '<span><table style="display: inline"><tr><td><img class="allGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+groupName+'</td></tr><tr><td><a href="#">Join Group</a></td></tr></table></span>';
+		var item = '<span><table style="display: inline"><tr><td><img class="allGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+grp['_id']+'</td></tr><tr><td><a class="joinGroup" id="'+grp['_id']+'" href="#">Join Group</a></td></tr></table></span>';
 		$('#allGroupsTable').append(item);
 	})
 });
 
 document.addEventListener('wsMsg-listOwnGroup', function(e) {
-	//TODO add click event to image --> chatHistory Handler
+	$('#myGroupsTable').html('');
 	e.detail.gList.forEach(function(grop){
-		var item = '<span><table style="display: inline"><tr><td><a href="/static/chatPage.html?group='+grop+'"><img id="'+grop+'" class="myGroupsContent" src="userIcon.png" width="50px" height="50px"></a></td></tr><tr><td>'+grop+'</td></tr><tr><td><a href="#">Leave Group</a></td></tr></table></span>';
+		var item = '<span><table style="display: inline"><tr><td><a href="/static/chatPage.html?group='+grop+'"><img id="'+grop+'" class="myGroupsContent" src="userIcon.png" width="50px" height="50px"></a></td></tr><tr><td>'+grop+'</td></tr><tr><td><a class="leaveGroup" id="'+grop+'" href="#">Leave Group</a></td></tr></table></span>';
 		$('#myGroupsTable').append(item);
 	})
 });
 
 $('body').on('click','img.myGroupsContent', function(e){
 	ws.send('{"type":"setRoom" , "room":"'+this.id+'"}');
+})
+
+$('body').on('click', 'a.leaveGroup', function(e) {
+	e.preventDefault();
+	console.log(this.id);
+	ws.send(JSON.stringify({type: 'leaveGroup', lGRoom: this.id}));
+	ws.send(JSON.stringify({type: 'listGroup'}));
+})
+
+$('body').on('click', 'a.joinGroup', function(e) {
+	e.preventDefault();
+	console.log(this.id);
+	ws.send(JSON.stringify({type: 'joinGroup', jGRoom: this.id}));
+	ws.send(JSON.stringify({type: 'listGroup'}));
 })
 
 $('#createGroup').click(function (e) {

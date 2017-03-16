@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-from bson import *
 from tornado import websocket
 
 chat_Rooms = []
@@ -12,7 +11,6 @@ class GroupHandler(websocket.WebSocketHandler):
                 "_id": username+"/"+msg,
                 "msg":[]
             })
-            # bmsg = JSON.parse(msg)
 
             client.chatGame.users.update({
                 "_id": username

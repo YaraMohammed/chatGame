@@ -1,4 +1,8 @@
+var user = ''
+
 document.addEventListener('wsMsg-authResponse', function(e) {
+	user = e.detail.user;
+	console.log(user);
 	$('#username').text(e.detail.user);
 })
 

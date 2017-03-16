@@ -78,6 +78,9 @@ class WSHandler(websocket.WebSocketHandler):
             elif msg['type'] == 'listFriends':
                 FriendHandler.listFriends(self,self.username)
 
+            elif msg['type'] == 'listFriendReqs':
+                FriendHandler.listFriendReqs(self,self.username)
+
             # set current chat room
             elif msg['type'] == 'setRoom':
                 # check room type
@@ -204,13 +207,14 @@ class WSHandler(websocket.WebSocketHandler):
                 GroupHandler.leaveGroup(self.username,msg["lGRoom"])
 
             elif msg['type'] == 'addFriend':
+                print(msg)
                 FriendHandler.addFriend(self.username,msg["aFriend"])
 
             elif msg['type'] == 'acceptFriend':
                 FriendHandler.acceptFriend(self.username,msg["acFriend"])
 
             elif msg['type'] == 'denyFriend':
-                FriendHandler.acceptFriend(self.username,msg["dFriend"])
+                FriendHandler.denyFriend(self.username,msg["dFriend"])
 
             elif msg['type'] == 'removeFriend':
                 FriendHandler.removeFriend(self.username,msg["rFriend"])

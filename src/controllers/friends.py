@@ -144,3 +144,20 @@ class FriendHandler(websocket.WebSocketHandler):
             self.write_message(fObj)
         else:
             pass
+
+    def listFriendReqs(self,me):
+        own_FriendReqs = []
+        client = MongoClient()
+
+        user = client.chatGame.users.find_one({
+            "_id": me
+        })
+        print(me)
+        if user is not None:
+            for friend in user['friendReqs']:
+                own_FriendReqs.append(friend)
+            print(own_FriendReqs)
+            fObj = {"type":"listFriendReqs","fList":own_FriendReqs}
+            self.write_message(fObj)
+        else:
+            pass
