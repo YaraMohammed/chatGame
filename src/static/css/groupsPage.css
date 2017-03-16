@@ -84,9 +84,12 @@ body {
   float: center;
   z-index: 1;
   border: 1px solid #ed2553;
-  margin: 65px 15px 15px 15px;
-  padding: 10px 10px 10px 10px;
+  margin: 15px 15px 0px 15px;
+  padding: 5px 5px 5px 5px;
 }
+.myGroupsNames {
+  text-align: center;
+  }
 
 /*All Groups Container*/
 .allGroupsContainer {
@@ -117,14 +120,25 @@ body {
   float: center;
   z-index: 1;
   border: 1px solid #ed2553;
-  margin: 65px 15px 15px 15px;
-  padding: 10px 10px 10px 10px;
+  margin: 10px 15px 0px 15px;
+  padding: 5px 5px 5px 5px;
 }
+
+.allGroupsNames {
+  text-align: center;
+  }
 
 .createGroupButton {
   position: relative;
   float: right;
   width: 9%;
-  height: 35px;
+  height: 40px;
+  font-size: 14px;
+}
+.createGroupText {
+  position: relative;
+  float: right;
+  width: 12%;
+  height: 30px;
   font-size: 14px;
 }

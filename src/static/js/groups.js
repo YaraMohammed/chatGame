@@ -70,8 +70,16 @@ document.addEventListener('wsMsg-groupList', function(e) {
 document.addEventListener('wsMsg-listOwnGroup', function(e) {
 	//TODO add click event to image --> chatHistory Handler
 	e.detail.gList.forEach(function(grop){
-		img = '<img class="myGroupsContent" src="userIcon.png" width="50px" height="50px" />'
-		$('#myGroupsContainer').append(img)
+		var tdCount = 14;
+		trHtmlBegin = '<tr>';
+		trHtmlEnd = '</tr>';
+		cellHtml ='<td class="myGroupsNames"><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"><BR>Group Name<BR><a href="#">Leave Group</a></td>';
+		$('#myGroupsTable').append(trHtmlBegin)
+		for (var i = 0; i < tdCount; i++)
+		{
+			cellHtml ='<td class="myGroupsNames"><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"><BR>Group Name<BR><a href="#">Leave Group</a></td>';
+		}
+		trHtmlEnd = '</tr>';
 		// console.log(img)
 	})
 });
