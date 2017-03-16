@@ -65,14 +65,14 @@ document.addEventListener('wsMsg-listOwnFriend', function(e) {
 $('#add_friend').click(function (e) {
 	var afriend = $("#addFriend").val();
 	aObj ={'type':'addFriend' , 'aFriend':afriend}
-	webSocket.send(JSON.stringify(aObj))
+	ws.send(JSON.stringify(aObj))
 	$("#jGRoom").val('')
 })
 
 $('#remove_friend').click(function (e) {
 	var rfriend = $("#removeFriend").val();
 	rObj ={'type':'removeFriend' , 'rFriend':rfriend}
-	webSocket.send(JSON.stringify(rObj))
+	ws.send(JSON.stringify(rObj))
 	$("#jGRoom").val('')
 })
 
@@ -80,6 +80,6 @@ $('#remove_friend').click(function (e) {
 $('#send').click(function(e){
 	var msg = $("#message").val()
 	obj = {'type':'sendMsg','data':msg}
-	webSocket.send(JSON.stringify(obj))
+	ws.send(JSON.stringify(obj))
 	$("#message").val('')
 })

@@ -1,4 +1,3 @@
-
 // $(function(){
 // 	ws = new WebSocket("ws://localhost:8888/ws");
 //
@@ -76,23 +75,28 @@ document.addEventListener('wsMsg-listOwnGroup', function(e) {
 	})
 });
 
-$('#create_group').click(function (e) {
+//add event listener to images to open chat on click
+$('body').on('click','img.allGroupsContent', function(e){
+	console.log("listening to image")
+})
+
+$('#createGroup').click(function (e) {
 	var room = $("#gRoom").val();
 	gObj ={'type':'createGroup' , 'gRoom':room}
-	webSocket.send(JSON.stringify(gObj))
+	ws.send(JSON.stringify(gObj))
 	$("#gRoom").val('')
 })
 
 $('#join_group').click(function (e) {
 	var jroom = $("#jGRoom").val();
 	jObj ={'type':'joinGroup' , 'jGRoom':jroom}
-	webSocket.send(JSON.stringify(jObj))
+	ws.send(JSON.stringify(jObj))
 	$("#jGRoom").val('')
 })
 
 $('#leave_group').click(function (e) {
 	var lroom = $("#lGRoom").val();
 	lObj ={'type':'leaveGroup' , 'lGRoom':lroom}
-	webSocket.send(JSON.stringify(lObj))
+	ws.send(JSON.stringify(lObj))
 	$("#lGRoom").val('')
 })
