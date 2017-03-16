@@ -206,10 +206,14 @@ class WSHandler(websocket.WebSocketHandler):
             elif msg['type'] == 'addFriend':
                 FriendHandler.addFriend(self.username,msg["aFriend"])
 
+            elif msg['type'] == 'acceptFriend':
+                FriendHandler.acceptFriend(self.username,msg["acFriend"])
+
+            elif msg['type'] == 'denyFriend':
+                FriendHandler.acceptFriend(self.username,msg["dFriend"])
+
             elif msg['type'] == 'removeFriend':
                 FriendHandler.removeFriend(self.username,msg["rFriend"])
-
-
 
             # inform user about wrong request type
             else:
