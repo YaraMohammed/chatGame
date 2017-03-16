@@ -6,7 +6,7 @@ document.addEventListener('ws-onOpen', function(e) {
 document.addEventListener('wsMsg-groupList', function(e) {
 	//TODO add click event to image --> chatHistory Handler
 	e.detail.list.forEach(function(grp){
-		var item = '<span><table style="display: inline"><tr><td><img class="allGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>Group Name</td></tr><tr><td><a href="#">Join Group</a></td></tr></table></span>';
+		var item = '<span><table style="display: inline"><tr><td><img class="allGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+groupName+'</td></tr><tr><td><a href="#">Join Group</a></td></tr></table></span>';
 		$('#allGroupsTable').append(item);
 	})
 });
@@ -14,7 +14,7 @@ document.addEventListener('wsMsg-groupList', function(e) {
 document.addEventListener('wsMsg-listOwnGroup', function(e) {
 	//TODO add click event to image --> chatHistory Handler
 	e.detail.gList.forEach(function(grop){
-		var item = '<span><table style="display: inline"><tr><td><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>Group Name</td></tr><tr><td><a href="#">Leave Group</a></td></tr></table></span>';
+		var item = '<span><table style="display: inline"><tr><td><img class="myGroupsContent" src="userIcon.png" width="50px" height="50px"></td></tr><tr><td>'+groupName+'</td></tr><tr><td><a href="#">Leave Group</a></td></tr></table></span>';
 		$('#myGroupsTable').append(item);
 	})
 });
