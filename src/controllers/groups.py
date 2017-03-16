@@ -73,13 +73,14 @@ class GroupHandler(websocket.WebSocketHandler):
 
         grps = client.chatGame.chatRooms.find({},{"_id":"true"})
         for grp in grps:
-            chat_Rooms.append(grp)
-        print(chat_Rooms) 
-        obj = {'type':'groupList' , 'list':chat_Rooms} 
-        self.write_message(obj)   
+            print(grp)
+            if grp['_id'].find('/') > -1:
+                chat_Rooms.append(grp)
+        print(chat_Rooms)
+        obj = {'type':'groupList' , 'list':chat_Rooms}
+        self.write_message(obj)
         chat_Rooms.clear()
 
-    
     def listGroup(self,username):
         client = MongoClient()
 
@@ -94,5 +95,5 @@ class GroupHandler(websocket.WebSocketHandler):
             gObj = {"type":"listOwnGroup","gList":own_Groups}
             self.write_message(gObj)
             own_Groups.clear()
-        else: 
+        else:
             pass

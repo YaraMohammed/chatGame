@@ -6,7 +6,7 @@ from jose.exceptions import JOSEError
 
 class MainHandler(web.RequestHandler):
     def get(self):
-        self.write("Working")
+        self.redirect('/static/index.html')
 
 
 class SignUpHandler(web.RequestHandler):
