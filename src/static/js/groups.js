@@ -1,4 +1,3 @@
-
 // $(function(){
 // 	ws = new WebSocket("ws://localhost:8888/ws");
 //
