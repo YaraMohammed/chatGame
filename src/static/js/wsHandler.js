@@ -23,5 +23,6 @@ ws.onopen = function() {
 
 ws.onmessage = function(e) {
 	var msg = JSON.parse(e.data);
+	console.log(msg);
 	document.dispatchEvent(new CustomEvent('wsMsg-' + msg.type, {detail: msg}));
 };

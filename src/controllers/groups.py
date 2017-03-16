@@ -18,7 +18,7 @@ class GroupHandler(websocket.WebSocketHandler):
                 "_id": username
             }, {
                 "$push": {
-                    'groups': msg
+                    'groups': username+"/"+msg
                 }
             })
 
@@ -75,9 +75,7 @@ class GroupHandler(websocket.WebSocketHandler):
 
         grps = client.chatGame.chatRooms.find({},{"_id":"true"})
         for grp in grps:
-            s = grp['_id'].split('/')
-            if len(s) == 2:
-                chat_Rooms.append(s[1])
+            chat_Rooms.append(grp)
         print(chat_Rooms) 
         obj = {'type':'groupList' , 'list':chat_Rooms} 
         self.write_message(obj)   
