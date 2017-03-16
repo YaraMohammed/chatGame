@@ -1,4 +1,3 @@
-
 // $(function(){
 // 	ws = new WebSocket("ws://localhost:8888/ws");
 //
@@ -83,6 +82,11 @@ document.addEventListener('wsMsg-listOwnGroup', function(e) {
 		// console.log(img)
 	})
 });
+
+//add event listener to images to open chat on click
+$('body').on('click','img.allGroupsContent', function(e){
+	console.log("listening to image")
+})
 
 $('#createGroup').click(function (e) {
 	var room = $("#gRoom").val();
