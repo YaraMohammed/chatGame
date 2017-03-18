@@ -70,4 +70,6 @@ class SignInHandler(web.RequestHandler):
                     "$set": {"state": "on"}
                 })
 
-        self.redirect("/static/homePage.html")
+            self.redirect("/static/homePage.html")
+        else:
+            self.redirect("/static/index.html")
