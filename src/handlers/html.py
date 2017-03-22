@@ -27,6 +27,16 @@ class SignUpHandler(web.RequestHandler):
             "friends": [],
             "friendReqs": []
         })
+        try:
+            token = jwt.encode(
+                {'username': username},
+                'secret',
+                algorithm='HS256'
+            )
+        except JOSEError:
+            pass
+        else:
+            self.set_cookie('token', token)
         self.redirect("/static/homePage.html")
 
 
@@ -60,4 +70,6 @@ class SignInHandler(web.RequestHandler):
                     "$set": {"state": "on"}
                 })
 
-        self.redirect("/static/homePage.html")
+            self.redirect("/static/homePage.html")
+        else:
+            self.redirect("/static/index.html")
